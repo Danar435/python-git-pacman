@@ -7,19 +7,19 @@ import pygame as pg
 pg.mixer.pre_init(44100,32,2,1024)
 pg.mixer.init()
 pg.mixer.music.load("pacman_banging.wav")
-pg.mixer.music.play()
+pg.mixer.music.play(loops = -1)
 
 ## Screen setup ##
 pg.init()
-screen = pg.display.set_mode((600,800))
+screen = pg.display.set_mode((352,480))
 pg.display.set_caption("Pac-Man (clone)")
 
 
 
 ## Load images ##
 pacman_images = []
-for i in range(6):
-    img = pg.image.load(f"images/pacman_{i}.png")
+for i in range(2):
+    img = pg.image.load(f"images/pac{i}.png")
     img = pg.transform.scale(img, (32,32))
     pacman_images.append(img)
 
@@ -91,17 +91,15 @@ while running:
             if tile == "#":
                 pg.draw.rect(screen, (20,20,220), pg.Rect(left+1, top+1, 30,30), 1)
 
-
-
     # Draw pacman#
-    r = int((tick/2)%6)
-    if direction == "left":
+    r = int((tick/3)%2)
+    if direction == "right":
         screen.blit(pacman_images[r], (x, y))
-    elif direction == "right":
+    elif direction == "left":
         screen.blit(pg.transform.rotate(pacman_images[r],180), (x, y))
-    elif direction == "up":
-        screen.blit(pg.transform.rotate(pacman_images[r],-90), (x, y))
     elif direction == "down":
+        screen.blit(pg.transform.rotate(pacman_images[r],-90), (x, y))
+    elif direction == "up":
         screen.blit(pg.transform.rotate(pacman_images[r],90), (x, y))
     else:
         screen.blit(pacman_images[0], (x, y))
