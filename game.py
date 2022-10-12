@@ -3,6 +3,12 @@ import time
 import random
 import pygame as pg
 
+## Sound Setup ##
+pg.mixer.pre_init(44100,32,2,1024)
+pg.mixer.init()
+pg.mixer.music.load("pacman_banging.wav")
+pg.mixer.music.play()
+
 ## Screen setup ##
 pg.init()
 screen = pg.display.set_mode((600,800))
