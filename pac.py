@@ -46,12 +46,22 @@ class Ghost:
         self.num = num
         print("boo im a ghost", x, y)
 
+    def logic(self, pacx, pacy):
+        if self.x > pacx:
+            self.x -= 4
+        elif self.x < pacx:
+            self.x += 4
+        elif self.y > pacy:
+            self.y -= 4
+        elif self.y < pacy:
+            self.y += 4
+
     def draw(self, screen):
         img = pg.image.load(f"images/ghost{self.num}.png")
         img = pg.transform.scale(img, (32,32))
         screen.blit(img, (self.x, self.y))  
 
-## Screen setup ##
+# Screen setup
 pg.init()
 screen = pg.display.set_mode((600,800))
 pg.display.set_caption("Pac-Man")
@@ -88,6 +98,7 @@ while running:
 
     # Logic
     pacman.move(direction)
+    ghost1.logic(pacman.x, pacman.y)
     
     # Draw 
     screen.fill((0,0,0))
