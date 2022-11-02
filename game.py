@@ -48,7 +48,9 @@ num_cols = len(level[0])
 
 ## Game Loop ##
 
-direction = None
+currentdir = None
+nextdir = None
+
 running = True
 tick = 0
 while running:
@@ -60,27 +62,47 @@ while running:
         if event.type == pg.QUIT:
             running = False
 
-        elif event.type == pg.KEYDOWN:
+        if event.type == pg.KEYDOWN:
             if event.key == pg.K_LEFT:
-                direction = "left"
+                if not currentdir:
+                    currentdir = "left"
+                elif currentdir == "right":
+                    currentdir = "left"
+                else:
+                    nextdir = "left"
             elif event.key == pg.K_RIGHT:
-                direction = "right"
+                if not currentdir:
+                    currentdir = "right"
+                elif currentdir == "left":
+                    currentdir = "right"
+                else:
+                    nextdir = "right"
             elif event.key == pg.K_UP:
-                direction = "up"
+                if not currentdir:
+                    currentdir = "up"
+                elif currentdir == "down":
+                    currentdir = "up"
+                else:
+                    nextdir = "up"
             elif event.key == pg.K_DOWN:
-                direction = "down"
+                if not currentdir:
+                    currentdir = "down"
+                elif currentdir == "up":
+                    currentdir = "down"
+                else:
+                    nextdir = "down"
             elif event.key == pg.K_ESCAPE:
                 running = False
 
     # Move
 
-    if direction == "left":
+    if currentdir == "left":
         x = x - 4
-    elif direction == "right":
+    elif currentdir == "right":
         x = x + 4
-    elif direction == "up":
+    elif currentdir == "up":
         y = y - 4
-    elif direction == "down":
+    elif currentdir == "down":
         y = y + 4
 
     # Draw level #
@@ -91,33 +113,34 @@ while running:
             left = c*32
             top = r*32
             if tile == "#":
-                pg.draw.rect(screen, (20,20,220), pg.Rect(left+1, top+1, 30,30), 1)
+                pg.draw.rect(screen, (0,0,0), pg.Rect(left+2, top+2, 28,28), 2)
                 #print(left, top, x, y)
 
-                # collision
+                # Collision # 
 
                 if x+32 > left and x < left+32 :
                     if y+32 > top and y < top+32:
-                        if direction == "right":
+                        if currentdir == "right":
                             x = x - 4
-                        if direction == "left":
+                        if currentdir == "left":
                             x = x + 4
-                        if direction == "down":
+                        if currentdir == "down":
                             y = y - 4
-                        if direction == "up":
+                        if currentdir == "up":
                             y = y + 4
-                        direction = None
+                        currentdir = nextdir
+                        nextdir = None
 
     # Draw pacman#
 
     r = int((tick/3)%2)
-    if direction == "right":
+    if currentdir == "right":
         screen.blit(pacman_images[r], (x, y))
-    elif direction == "left":
+    elif currentdir == "left":
         screen.blit(pg.transform.rotate(pacman_images[r],180), (x, y))
-    elif direction == "down":
+    elif currentdir == "down":
         screen.blit(pg.transform.rotate(pacman_images[r],-90), (x, y))
-    elif direction == "up":
+    elif currentdir == "up":
         screen.blit(pg.transform.rotate(pacman_images[r],90), (x, y))
     else:
         screen.blit(pacman_images[0], (x, y))  
