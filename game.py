@@ -18,9 +18,9 @@ ghost3 = Ghost(100,400, 2)
 ghost4 = Ghost(100,500, 3)
 
 direction = None
-
 running = True
 tick = 0
+
 while running:
 
     # Event loop
@@ -49,7 +49,7 @@ while running:
     
     # Draw 
     screen.fill((255,255,255))
-    pacman.draw(screen, direction)
+    pacman.draw(screen, direction, tick)
     ghost1.draw(screen)
     ghost2.draw(screen)
     ghost3.draw(screen)

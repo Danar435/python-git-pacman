@@ -5,19 +5,17 @@ class Pacman:
         self.x = x
         self.y = y
 
-    def move(self, new_direction):
-        if new_direction == "left":
+    def move(self, direction):
+        if direction == "left":
             self.x -= 4
-        elif new_direction == "right":
+        elif direction == "right":
             self.x += 4
-        elif new_direction == "up":
+        elif direction == "up":
             self.y -= 4
-        elif new_direction == "down":
+        elif direction == "down":
             self.y += 4
 
-    def draw(self, screen, new_direction):
-
-        from game import tick
+    def draw(self, screen, direction, tick):
 
         pacman_images = []
         for i in range(2):
@@ -26,13 +24,13 @@ class Pacman:
             pacman_images.append(img)
 
         r = int((tick/3)%2)
-        if new_direction == "right":
+        if direction == "right":
             screen.blit(pacman_images[r], (self.x, self.y))
-        elif new_direction == "left":
+        elif direction == "left":
             screen.blit(pg.transform.rotate(pacman_images[r],180), (self.x, self.y))
-        elif new_direction == "down":
+        elif direction == "down":
             screen.blit(pg.transform.rotate(pacman_images[r],-90), (self.x, self.y))
-        elif new_direction == "up":
+        elif direction == "up":
             screen.blit(pg.transform.rotate(pacman_images[r],90), (self.x, self.y))
         else:
             screen.blit(pacman_images[0], (self.x, self.y))  
